@@ -1,9 +1,10 @@
 package com.example.helloworld;
 
 import com.example.helloworld.core.Template;
-import com.yammer.dropwizard.config.Configuration;
-import com.yammer.dropwizard.db.DatabaseConfiguration;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.dropwizard.Configuration;
+import io.dropwizard.db.DataSourceFactory;
+import io.dropwizard.db.DatabaseConfiguration;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.Valid;
@@ -19,7 +20,11 @@ public class HelloWorldConfiguration extends Configuration {
     @Valid
     @NotNull
     @JsonProperty("database")
-    private DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration();
+    private DataSourceFactory database = new DataSourceFactory();
+
+    public DataSourceFactory getDataSourceFactory() {
+        return database;
+    }
 
     public String getTemplate() {
         return template;
@@ -41,11 +46,4 @@ public class HelloWorldConfiguration extends Configuration {
         return new Template(template, defaultName);
     }
 
-    public DatabaseConfiguration getDatabaseConfiguration() {
-        return databaseConfiguration;
-    }
-
-    public void setDatabaseConfiguration(DatabaseConfiguration databaseConfiguration) {
-        this.databaseConfiguration = databaseConfiguration;
-    }
 }
